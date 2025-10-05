@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Tools - Resize & Convert to PDF Online</title>
+    <meta name="description" content="Free online image tools. Resize JPG, PNG, WebP images and convert them to PDF. Maintain quality while reducing file size.">
+    <meta name="keywords" content="image resizer, resize image, image to pdf, convert image to pdf, image converter">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google AdSense Code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_AD_CLIENT_ID" crossorigin="anonymous"></script>
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tools"></i>
+                    <h1>Image Tools</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#"><i class="fas fa-home"></i> Home</a>
+                    <a href="#"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Ad Container - Top -->
+        <div class="ad-container ad-top">
+            <!-- AdSense Ad Unit - Top Banner -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID_TOP"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- Tool Selection -->
+        <div class="tool-selection">
+            <div class="tool-tabs">
+                <button class="tool-tab active" data-tool="resize">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    Resize Image
+                </button>
+                <button class="tool-tab" data-tool="pdf">
+                    <i class="fas fa-file-pdf"></i>
+                    Convert to PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container">
+                <!-- Upload Section -->
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3 id="uploadTitle">Upload an Image</h3>
+                        <p id="uploadDescription">Drag & drop your image here or click to browse</p>
+                        <p class="formats">Supports JPG, PNG, WebP, GIF</p>
+                        <input type="file" id="fileInput" accept="image/*" multiple>
+                    </div>
+                </div>
+
+                <!-- Resize Tool -->
+                <div class="tool-section active" id="resizeTool">
+                    <div class="controls-section" id="resizeControls" style="display: none;">
+                        <div class="preview-container">
+                            <div class="preview-box">
+                                <h4>Original Image</h4>
+                                <div class="image-preview" id="originalPreview"></div>
+                                <div class="file-info" id="originalInfo"></div>
+                            </div>
+                            <div class="preview-box">
+                                <h4>Resized Image</h4>
+                                <div class="image-preview" id="resizedPreview"></div>
+                                <div class="file-info" id="resizedInfo"></div>
+                            </div>
+                        </div>
+
+                        <div class="resize-controls">
+                            <div class="control-group">
+                                <label for="width">Width (px):</label>
+                                <input type="number" id="width" min="1" value="800">
+                            </div>
+
+                            <div class="control-group">
+                                <label for="height">Height (px):</label>
+                                <input type="number" id="height" min="1" value="600">
+                            </div>
+
+                            <div class="control-group">
+                                <label for="lockAspectRatio">
+                                    <input type="checkbox" id="lockAspectRatio" checked> Maintain aspect ratio
+                                </label>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="quality">Quality:</label>
+                                <input type="range" id="quality" min="10" max="100" value="85">
+                                <div class="value-display">
+                                    <span id="qualityValue">85%</span>
+                                    <span class="quality-indicator" id="qualityIndicator">Good Quality</span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="format">Output Format:</label>
+                                <select id="format">
+                                    <option value="jpeg">JPEG</option>
+                                    <option value="png">PNG</option>
+                                    <option value="webp">WebP</option>
+                                </select>
+                            </div>
+
+                            <div class="preset-sizes">
+                                <h4>Quick Resize:</h4>
+                                <div class="preset-buttons">
+                                    <button class="preset-btn" data-width="1920" data-height="1080">HD (1920x1080)</button>
+                                    <button class="preset-btn" data-width="1280" data-height="720">720p (1280x720)</button>
+                                    <button class="preset-btn" data-width="1080" data-height="1080">Instagram (1080x1080)</button>
+                                    <button class="preset-btn" data-width="1200" data-height="630">Facebook (1200x630)</button>
+                                    <button class="preset-btn" data-width="800" data-height="600">Web (800x600)</button>
+                                    <button class="preset-btn" data-width="150" data-height="150">Thumbnail (150x150)</button>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button id="resizeBtn" class="btn btn-primary">
+                                    <i class="fas fa-compress"></i> Resize Image
+                                </button>
+                                <button id="downloadResizedBtn" class="btn btn-success" disabled>
+                                    <i class="fas fa-download"></i> Download Image
+                                </button>
+                                <button id="resetResizeBtn" class="btn btn-outline">
+                                    <i class="fas fa-redo"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PDF Tool -->
+                <div class="tool-section" id="pdfTool">
+                    <div class="controls-section" id="pdfControls" style="display: none;">
+                        <div class="pdf-preview-container">
+                            <div class="pdf-preview-box">
+                                <h4>Selected Images</h4>
+                                <div class="image-list" id="imageList"></div>
+                                <div class="file-info" id="pdfInfo"></div>
+                            </div>
+                            <div class="pdf-preview-box">
+                                <h4>PDF Preview</h4>
+                                <div class="pdf-preview" id="pdfPreview">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <p>PDF will be generated here</p>
+                                </div>
+                                <div class="file-info" id="pdfPreviewInfo"></div>
+                            </div>
+                        </div>
+
+                        <div class="pdf-controls">
+                            <div class="control-group">
+                                <label for="pageSize">Page Size:</label>
+                                <select id="pageSize">
+                                    <option value="a4">A4</option>
+                                    <option value="letter">Letter</option>
+                                    <option value="legal">Legal</option>
+                                    <option value="a3">A3</option>
+                                    <option value="a5">A5</option>
+                                </select>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="pageOrientation">Orientation:</label>
+                                <select id="pageOrientation">
+                                    <option value="portrait">Portrait</option>
+                                    <option value="landscape">Landscape</option>
+                                </select>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="imageLayout">Image Layout:</label>
+                                <select id="imageLayout">
+                                    <option value="fit">Fit to Page</option>
+                                    <option value="full">Full Size</option>
+                                    <option value="multiple">Multiple per Page</option>
+                                </select>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="pdfQuality">PDF Quality:</label>
+                                <input type="range" id="pdfQuality" min="10" max="100" value="90">
+                                <div class="value-display">
+                                    <span id="pdfQualityValue">90%</span>
+                                    <span class="quality-indicator" id="pdfQualityIndicator">High Quality</span>
+                                </div>
+                            </div>
+
+                            <div class="image-management">
+                                <h4>Image Management:</h4>
+                                <div class="management-buttons">
+                                    <button id="reorderBtn" class="btn btn-outline">
+                                        <i class="fas fa-sort"></i> Reorder Images
+                                    </button>
+                                    <button id="removeAllBtn" class="btn btn-outline">
+                                        <i class="fas fa-trash"></i> Remove All
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button id="createPdfBtn" class="btn btn-primary">
+                                    <i class="fas fa-file-pdf"></i> Create PDF
+                                </button>
+                                <button id="downloadPdfBtn" class="btn btn-success" disabled>
+                                    <i class="fas fa-download"></i> Download PDF
+                                </button>
+                                <button id="resetPdfBtn" class="btn btn-outline">
+                                    <i class="fas fa-redo"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Ad Container - Middle -->
+        <div class="ad-container ad-middle">
+            <!-- AdSense Ad Unit - Middle Rectangle -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID_MIDDLE"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2>Powerful Image Tools</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <h3>Image Resizing</h3>
+                    <p>Resize images to any dimension while maintaining quality and aspect ratios.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>PDF Conversion</h3>
+                    <p>Convert single or multiple images to PDF with customizable page settings.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Privacy First</h3>
+                    <p>All processing happens in your browser. Your files never leave your computer.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast Processing</h3>
+                    <p>Quick and efficient processing powered by modern web technologies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ad Container - Bottom -->
+        <div class="ad-container ad-bottom">
+            <!-- AdSense Ad Unit - Bottom Banner -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="fluid"
+                 data-ad-layout-key="-gw-3+1f-3d+2z"
+                 data-ad-client="ca-pub-YOUR_AD_CLIENT_ID"
+                 data-ad-slot="YOUR_AD_SLOT_ID_BOTTOM"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    <p>&copy; 2025 Image Tools. All rights reserved.</p>
+                    <p>Your privacy is important - we don't store your images on our servers.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operation completed successfully!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
